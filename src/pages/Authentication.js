@@ -8,7 +8,7 @@ function AuthenticationPage() {
 export default AuthenticationPage;
 
 export async function action({ request }) {
-  const searchParams = new URL(request.URL).searchParams;
+  const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode") || "login";
 
   if (mode !== "login" && mode !== "signup") {
@@ -37,6 +37,11 @@ export async function action({ request }) {
   if (!response.ok) {
     throw json({ message: "Could not authenticate user!" }, { status: 500 });
   }
+
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem("token", token);
 
   return redirect("/");
   // if we pass all of these lines, we get back token and manage it
