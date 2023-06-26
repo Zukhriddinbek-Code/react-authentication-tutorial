@@ -43,6 +43,10 @@ export async function action({ request }) {
 
   localStorage.setItem("token", token);
 
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1);
+  localStorage.setItem("expiration", expiration.toISOString());
+
   return redirect("/");
   // if we pass all of these lines, we get back token and manage it
 }
